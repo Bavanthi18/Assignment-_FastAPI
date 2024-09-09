@@ -1,0 +1,29 @@
+name: Deploy FastAPI to Fly.io
+
+on:
+  push:
+    branches:
+      - main  # Triggers deployment on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Deploy to Fly.io
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}  # Add your Fly.io API token to GitHub Secrets
+      run: |
+        flyctl deploy
