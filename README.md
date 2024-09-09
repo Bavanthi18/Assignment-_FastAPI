@@ -1,3 +1,109 @@
+# FastAPI Machine Learning API
+
+This project demonstrates how to deploy a machine learning model using FastAPI on a free or freemium platform. The API allows users to send input data in JSON format and receive predictions from the deployed model.
+
+## Features
+- Serve a pre-trained machine learning model via a FastAPI application.
+- Accepts input data in JSON format and returns predictions.
+- Deployed on a free platform (e.g., Fly.io) with CI/CD automation using GitHub Actions.
+
+## Getting Started
+
+### Prerequisites
+- Python 3.7 or higher
+- `pip` (Python package manager)
+- [Fly.io CLI (`flyctl`)](https://fly.io/docs/getting-started/installing-flyctl/) for deployment
+
+### Installation
+
+
+1. Clone the Repository:
+
+   ```bash
+   git clone https://github.com/Bavanthi18/Assignment-_FastAPI
+   cd Assignment_FastAPI
+
+2.Install the Required Dependencies:
+pip install -r requirements.txt
+
+3.Run the Application Locally:
+uvicorn app.main:app --reload
+
+API Endpoints
+GET /: Health check endpoint. Returns a message indicating that the API is running.
+
+POST /predict: Endpoint to get predictions from the model.
+
+Input: JSON object containing the required input data for the model.
+Output: JSON object containing the prediction results.
+
+Example Request
+curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json" -d '{"input_data": [5.1, 3.5, 1.4, 0.2]}'
+
+Deployment
+Install Fly.io CLI (flyctl):
+
+Follow the instructions on Fly.io's documentation to install flyctl.
+
+Initialize Fly.io Application:
+flyctl launch
+
+
+Deploy to Fly.io:
+flyctl deploy
+
+
+CI/CD Setup with GitHub Actions
+1.Create a Workflow File:
+create a file at .github/workflows/deploy.yml with the following content:
+name: Deploy FastAPI to Fly.io
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Deploy to Fly.io
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      run: |
+        flyctl deploy
+
+Add Fly.io API Token to GitHub Secrets:
+Go to your GitHub repository settings, under Secrets and variables > Actions, and create a new secret named FLY_API_TOKEN with your Fly.io API token.
+
+Testing the Deployed API
+Once deployed, test your API by sending HTTP requests to the provided URL. You can use tools like curl, Postman, or any HTTP client to make requests.
+
+
+
+
+
+
+
+
+
+
+
+
+## Screenshots
 
 ![Screenshot (965)](https://github.com/user-attachments/assets/123089bf-cd69-425e-a080-05472e320c94)
 ![Screenshot (964)](https://github.com/user-attachments/assets/b68dad02-c79a-4d68-9d4c-0373b58b9003)
